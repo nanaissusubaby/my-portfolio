@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>李苏 · 产品经理 · 星空花园</title>
-    <!-- 柔和字体 & 图标库 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
@@ -25,7 +24,6 @@
             position: relative;
         }
 
-        /* 固定画布层 — 星星花朵 & 纸飞机拖尾 */
         #magic-canvas {
             position: fixed;
             top: 0;
@@ -37,7 +35,6 @@
             display: block;
         }
 
-        /* 主要内容区域 */
         .content {
             position: relative;
             z-index: 10;
@@ -46,7 +43,6 @@
             padding: 2rem 1.5rem 4rem;
         }
 
-        /* 玻璃卡片效果 */
         .glass-card {
             background: rgba(18, 25, 40, 0.7);
             backdrop-filter: blur(10px);
@@ -61,7 +57,6 @@
             transform: translateY(-4px);
         }
 
-        /* 头部区域 */
         .hero {
             display: flex;
             flex-wrap: wrap;
@@ -115,7 +110,6 @@
             border-bottom: 1px dotted #5577bb;
         }
 
-        /* 数据亮点小标签 - 居中 */
         .stats-grid {
             display: flex;
             flex-wrap: wrap;
@@ -138,7 +132,6 @@
             margin-right: 6px;
         }
 
-        /* 作品链接卡片 */
         .links-row {
             display: flex;
             flex-wrap: wrap;
@@ -184,7 +177,6 @@
             font-weight: 600;
         }
 
-        /* 大标题居中 */
         .section-title {
             font-size: 2rem;
             font-weight: 600;
@@ -401,7 +393,6 @@
             </div>
         </div>
 
-        <!-- 敬请期待：两个新项目 -->
         <div class="section-title">
             <i class="fas fa-hourglass-half"></i> 敬请期待
         </div>
@@ -425,7 +416,6 @@
             <i class="fas fa-robot" style="font-size: 2.5rem; color: #a2d9ff; margin: 0 1rem;"></i>
             <i class="fas fa-tree" style="font-size: 2.5rem; color: #93e9be;"></i>
             <p style="margin-top: 1rem; font-size: 1.2rem; letter-spacing: 0.5px;">🌿 设计未来 · 人与AI · 自然共生 🌍</p>
-            <p style="color: #a0b9ee;">——  ——</p>
         </div>
 
         <footer>
@@ -433,7 +423,6 @@
         </footer>
     </div>
 
-    <!-- 画布魔法：星星花朵掉落 + 纸飞机拖尾（保持不变） -->
     <script>
         (function() {
             const canvas = document.getElementById('magic-canvas');
@@ -477,17 +466,14 @@
                 if (trail.length > TRAIL_MAX) trail.shift();
             });
 
-            window.addEventListener('mouseleave', () => {});
-
             window.addEventListener('touchmove', (e) => {
                 if (e.touches.length > 0) {
-                    mouseX = e.touches[0].clientX;
-                    mouseY = e.touches[0].clientY;
-                    trail.push({ x: mouseX, y: mouseY, life: 1.0 });
+                    const touch = e.touches[0];
+                    trail.push({ x: touch.clientX, y: touch.clientY, life: 1.0 });
                     if (trail.length > TRAIL_MAX) trail.shift();
                 }
-                e.preventDefault();
-            }, { passive: false });
+                // 不再阻止默认滚动，保证手机可以滑动页面
+            });
 
             function drawStar(cx, cy, r, spikes, rot, opacity) {
                 let step = Math.PI / spikes;
