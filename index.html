@@ -195,6 +195,17 @@
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.8rem;
         }
+        .card-grid.two-col {
+            grid-template-columns: repeat(2, 1fr);
+            max-width: 860px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (max-width: 720px) {
+            .card-grid.two-col {
+                grid-template-columns: 1fr;
+            }
+        }
         .exp-card {
             padding: 1.8rem 1.5rem;
             height: fit-content;
@@ -287,8 +298,8 @@
             <div class="hero-text">
                 <h1>李苏 · 产品玩家</h1>
                 <div style="margin: 0.75rem 0;">
+                    <span class="badge"><i class="fab fa-jd"></i> 京东 JoyInside · AI PM（实习）</span>
                     <span class="badge"><i class="far fa-paper-plane"></i> 27届毕业生</span>
-                    <span class="badge"><i class="fas fa-bullseye"></i> 互联网产品经理</span>
                     <span class="badge"><i class="fas fa-gem"></i> 南大硕士 · GPA 4.7</span>
                 </div>
                 <div class="contact-info">
@@ -299,10 +310,12 @@
         </div>
 
         <div class="stats-grid">
-            <div class="stat-item"><span>📈 付费转化</span> +12% ~ +18%</div>
+            <div class="stat-item"><span>🍎 京东实习</span> JoyInside AI PM</div>
+            <div class="stat-item"><span>🎯 工具召回</span> 48% → 84.67%</div>
+            <div class="stat-item"><span>🗣️ 日均对话</span> 33.5轮 / 人</div>
+            <div class="stat-item"><span>🚀 品牌自助接入</span> 0% → 60%</div>
+            <div class="stat-item"><span>💰 付费转化</span> 5% → 9.2%</div>
             <div class="stat-item"><span>⏱️ 效率提升</span> 最高95%</div>
-            <div class="stat-item"><span>👥 7日留存</span> 22% → 45%</div>
-            <div class="stat-item"><span>🎯 响应准确率</span> 85%</div>
         </div>
 
         <div class="links-row">
@@ -327,47 +340,75 @@
         </div>
 
         <div class="section-title">
-            <i class="fas fa-briefcase"></i> 实习·锻造
+            <i class="fas fa-briefcase"></i> 京东 · JoyInside
         </div>
         <div class="card-grid">
+            <div class="exp-card glass-card" style="grid-column: 1 / -1; background: rgba(30, 20, 25, 0.72); border-color: rgba(255, 130, 130, 0.35);">
+                <h3>🍎 AI营养秤 · 大模型语音交互落地</h3>
+                <div class="company"><i class="fas fa-utensils" style="color:#ff9e9e;"></i> 京东 JoyInside · AI PM（实习） <span style="color:#ff9e9e;">（主导 · 首款AI营养秤）</span></div>
+                <div class="date">2026.04 – 至今</div>
+                <p>📌 联手厂商香山从0定义AI营养秤，解决称重硬件与AI饮食服务体验割裂的痛点，创新“秤体自动回传重量 + 大模型多轮应答”交互范式，落地语音饮食记录、营养查询、热量复盘、个性化膳食推荐等核心场景。</p>
+                <p>🛠️ 搭建 <strong>Intent + Scenario Engine + Tools</strong> 三层 Skill 架构，设计意图路由与业务意图域；构建以 <strong>Plan.EM & Act.EM、工具召回率、幻觉率</strong> 为核心的评测体系，横向对比完成轻量化模型选型；针对模型绕过工具的 BadCase，强化 PE 约束、优化 Tool 描述提升调用准召。</p>
+                <p><strong>🏆结果</strong>工具精准召回率 48% → 84.67%（+10pp），端到端时延↓300+ms；7月28日上线后人均每日对话 <strong>33.5轮</strong>（其他家居品类仅13.98轮），沉淀外部工具调用时延标准与测试准出模板成为内部参考。</p>
+                <span class="result-badge"><i class="fas fa-microphone"></i> 召回84.67%</span>
+                <span class="result-badge"><i class="fas fa-bolt"></i> 时延↓300ms+</span>
+                <span class="result-badge"><i class="fas fa-comments"></i> 33.5轮/日</span>
+            </div>
+            <div class="exp-card glass-card" style="grid-column: 1 / -1; background: rgba(20, 26, 40, 0.72); border-color: rgba(130, 170, 255, 0.35);">
+                <h3>🧩 JoyInside 开放平台 2.0 · 架构升级</h3>
+                <div class="company"><i class="fas fa-sitemap" style="color:#9ec2ff;"></i> 京东 JoyInside · AI PM（实习） <span style="color:#9ec2ff;">（核心设计 · 平台建设）</span></div>
+                <div class="date">2026.04 – 至今</div>
+                <p>📌 为降低接入门槛、撬动规模化设备生态，主导平台 2.0 架构升级：将平台从单层应用升级为 <strong>“产品-智能体”两层架构</strong>——产品层聚焦硬件、挂载 AIoT/ASR 等设备能力，智能体层聚焦大脑软件、配置人设/音色/技能等交互属性，划清配置边界、显著降低理解与配置成本。</p>
+                <p>🛠️ 在解耦基础上实现同一产品下 <strong>多智能体</strong> 灵活配置与切换；打通端云 <strong>MCP</strong> 通道并开放提示词能力，支持品牌自建技能 Sub-agent，满足定制化功能需求、扩展平台能力边界。</p>
+                <p><strong>🏆结果</strong>品牌自助接入 0% → 60%，累计支撑 100+ 项目自助落地；方案上线两周撬动原小智系厂商切换 JoyInside 链路，已激活 3千台、1.5万台生产中、7万台开发中。</p>
+                <span class="result-badge"><i class="fas fa-rocket"></i> 自助接入60%</span>
+                <span class="result-badge"><i class="fas fa-cubes"></i> 100+项目</span>
+                <span class="result-badge"><i class="fas fa-plug"></i> 端云MCP打通</span>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <i class="fas fa-briefcase"></i> 实习·锻造
+        </div>
+        <div class="card-grid two-col">
             <div class="exp-card glass-card">
-                <h3>AI写作产品</h3>
-                <div class="company"><i class="fas fa-cloud-sun"></i> 湖州云梯科技 · 产品实习生</div>
+                <h3>✍️ AI写作产品 · 全链路引导</h3>
+                <div class="company"><i class="fas fa-cloud-sun"></i> 云梯科技 · AI产品经理</div>
                 <div class="date">2025.11 – 2026.03</div>
-                <p>📌 针对150+学生/家长调研，设计“素材积累-思路引导-篇章打磨”全流程，权威内容+专业指导差异化；内容审核模块降低安全顾虑。</p>
-                <p><strong>结果：</strong>MVP全票通过，预估付费转化8%~10%，试错成本↓80%</p>
-                <span class="result-badge"><i class="far fa-star"></i> 转化提升</span>
+                <p>📌 依托人民日报独家素材布局AI写作赛道。通过150+用户问卷洞察中小学生"写作无思路"、家长"顾虑抄袭"痛点，基于Prompt工程搭建"思路引导-素材推荐-批改打磨"闭环，构建多维素材标签体系与多轮追问Prompt链，落地多维度AI批改规范。</p>
+                <p><strong>结果：</strong>构建独家素材+全流程引导的差异化壁垒，付费转化率由行业均值约5%提升至 <strong>9.2%</strong>，突破同质化竞争困局。</p>
+                <span class="result-badge"><i class="fas fa-chart-line"></i> 转化5%→9.2%</span>
             </div>
             <div class="exp-card glass-card">
-                <h3>养老阅读 · 社交互动</h3>
-                <div class="company"><i class="fas fa-heart"></i> 湖州云梯科技</div>
+                <h3>🧓 银发AI对话 · 长期记忆体系</h3>
+                <div class="company"><i class="fas fa-heart"></i> 云梯科技 · AI产品经理</div>
                 <div class="date">2025.11 – 2026.03</div>
-                <p>记忆型健康聊天：构建慢病/用药标签，健康响应准确率↑85% 。虚拟人互动社区(类朋友圈)，兴趣匹配+社交裂变。</p>
-                <p><strong>成果：</strong>日均互动↑30%，7日留存22%→45%，验证商业化潜力。</p>
-                <span class="result-badge"><i class="far fa-star"></i> 留存翻倍</span>
+                <p>📌 针对银发养生国学AI问答Bot无长期记忆、体验割裂的问题，标注100+线上BadCase定位根因，设计"事实档案-事件记录-会话上下文"三层记忆架构，落地 BM25+向量混合召回，制定分层过期、冲突覆盖等适老化与合规规则。</p>
+                <p><strong>结果：</strong>对话记忆类BadCase修复率85%，跳出率降至28%，7日留存 <strong>+12pp</strong>，投诉占比降至4%。</p>
+                <span class="result-badge"><i class="far fa-star"></i> 留存+12pp</span>
             </div>
             <div class="exp-card glass-card">
-                <h3>B端视频资源库</h3>
-                <div class="company"><i class="fas fa-folder-tree"></i> 湖州云梯科技</div>
-                <div class="date">2025.11 – 2026.03</div>
-                <p>跨版本素材流转: 树形目录+批量操作+权限管理。解决1.0/2.0素材割裂。</p>
-                <p><strong>效率：</strong>跨版本流转时间30min→1min (↓95%)，查找耗时3min→90秒。</p>
-                <span class="result-badge"><i class="far fa-clock"></i> 提效95%</span>
-            </div>
-            <div class="exp-card glass-card">
-                <h3>AI商业计划书</h3>
+                <h3>💡 AI商业计划书</h3>
                 <div class="company"><i class="fas fa-lightbulb"></i> 南京一盖神灯</div>
                 <div class="date">2025.07 – 2025.09</div>
-                <p>分析1000+交易数据，聚焦“初创融资/政府申报”(占65%)；深度访谈提炼需求。重构模板+流程优化。</p>
-                <p><strong>上线效果：</strong>生成效率↑60%，专业满意度85%，目标用户付费转化↑12% 。</p>
+                <p>分析1000+交易数据，聚焦"初创融资/政府申报"(占65%)；深度访谈提炼需求，重构模板+流程优化。</p>
+                <p><strong>上线效果：</strong>生成效率↑60%，专业满意度85%，目标用户付费转化↑12%。</p>
                 <span class="result-badge"><i class="fas fa-chart-line"></i> +12%转化</span>
+            </div>
+            <div class="exp-card glass-card">
+                <h3>🧱 平台基础能力 & 文档沉淀</h3>
+                <div class="company"><i class="fas fa-toolbox"></i> 京东 JoyInside · 通用能力沉淀</div>
+                <div class="date">2026.04 – 至今</div>
+                <p>设计热词、强制改写等 <strong>ASR 配置</strong> 功能并上线，针对性提升 182 家品牌方识别准确率，成为平台标准能力。</p>
+                <p>整合原版手册与技术 API 沉淀结构化知识库，为接入 Bot 提供训练语料，每项目节约 0.5 人天答疑，累计指导 100+ 项目自助接入。</p>
+                <span class="result-badge"><i class="fas fa-book"></i> 182家提准</span>
             </div>
         </div>
 
         <div class="section-title">
             <i class="fas fa-flask"></i> 项目·探索
         </div>
-        <div class="card-grid">
+        <div class="card-grid two-col">
             <div class="exp-card glass-card">
                 <h3>算法意义建构 · 短视频与职业认知</h3>
                 <div class="company"><i class="fas fa-users"></i> 组长 · 南大研究</div>
@@ -388,6 +429,11 @@
                     <span class="skill-tag">项目管理</span>
                     <span class="skill-tag">敏捷开发</span>
                     <span class="skill-tag">AI工作流</span>
+                    <span class="skill-tag">RAG / 长期记忆</span>
+                    <span class="skill-tag">MCP接入</span>
+                    <span class="skill-tag">Agent架构设计</span>
+                    <span class="skill-tag">大模型评测体系</span>
+                    <span class="skill-tag">BadCase归因调优</span>
                 </p>
                 <p style="margin-top: 1rem; color: #b1c6ff;"><i class="fas fa-magic"></i> 数据驱动 · 场景化设计 · 快速验证</p>
             </div>
@@ -396,7 +442,7 @@
         <div class="section-title">
             <i class="fas fa-hourglass-half"></i> 敬请期待
         </div>
-        <div class="card-grid">
+        <div class="card-grid two-col">
             <div class="exp-card glass-card">
                 <h3>⚖️ 吵架判官</h3>
                 <div class="company"><i class="fas fa-users"></i> 情感冲突调解AI</div>
@@ -404,9 +450,9 @@
                 <span class="result-badge coming-soon"><i class="fas fa-clock"></i> 敬请期待</span>
             </div>
             <div class="exp-card glass-card">
-                <h3>💃 舞蹈管理器</h3>
-                <div class="company"><i class="fas fa-video"></i> 舞者专属视频管家</div>
-                <p>一键存储跳舞视频，智能关联舞种、日期；提供舞蹈学习统计、成长可视化，告别手机内存焦虑，让热爱有迹可循。</p>
+                <h3>🎯 SkillOpt</h3>
+                <div class="company"><i class="fas fa-robot"></i> 智能体技能的"系统化教练"</div>
+                <p>把深度学习的训练纪律引入提示词工程：以独立"教练"模型迭代优化技能文档，经反思、聚合、门控验证形成闭环，让智能体越用越聪明，告别"凭感觉写提示词"。</p>
                 <span class="result-badge coming-soon"><i class="fas fa-clock"></i> 敬请期待</span>
             </div>
         </div>
