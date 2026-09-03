@@ -2,657 +2,826 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>李苏 · 产品经理 · 星空花园</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李苏 · AI 产品经理 · Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #0a0e17;
+            --sidebar: #0d1220;
+            --panel: rgba(18, 25, 40, 0.7);
+            --accent: #f5c518;      /* 科技金黄 accent */
+            --accent2: #37e0c8;     /* 科技青 */
+            --line: rgba(120, 150, 255, 0.18);
+            --text: #eef2fb;
+            --muted: #9fb2d6;
+            --sidebar-w: 300px;
         }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: "Inter", sans-serif;
-            background-color: #0b0e19;
-            color: #f0f3fa;
-            line-height: 1.5;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.55;
             min-height: 100vh;
-            position: relative;
         }
-
         #magic-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-            display: block;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1000; display: block;
         }
 
-        .content {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
+        /* ===== 布局骨架:左侧固定侧栏 + 右侧主区 ===== */
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: var(--sidebar-w);
+            flex: 0 0 var(--sidebar-w);
+            position: fixed; top: 0; left: 0; bottom: 0;
+            background: linear-gradient(180deg, #0e1424, #0a0e17);
+            border-right: 1px solid var(--line);
+            z-index: 40;
+          display: flex; flex-direction: column;
+            padding: 2rem 1.6rem;
+            overflow-y: auto;
+        }
+        .main {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            position: relative; z-index: 10;
+            padding: 0 3rem 4rem;
+            max-width: 1180px;
         }
 
+        /* ===== 侧边栏 ===== */
+        .side-avatar {
+            width: 100%; aspect-ratio: 1 / 1;
+            border-radius: 22px;
+            background:
+                linear-gradient(135deg, rgba(245,197,24,0.15), rgba(55,224,200,0.15)),
+                linear-gradient(135deg, #1a2440, #12203a);
+            border: 1px solid var(--line);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            box-shadow: 0 20px 40px -18px #000;
+        }
+        .side-avatar .ph-icon { font-size: 3.4rem; color: rgba(180,210,255,0.55); }
+        .side-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .side-avatar.has-img .ph-icon, .side-avatar.has-img .ph-note { display: none; }
+        .side-avatar .ph-note {
+            position: absolute; bottom: 10px; left: 0; right: 0;
+            text-align: center; font-size: 0.66rem; color: rgba(180,210,255,0.5);
+            letter-spacing: 0.04em;
+        }
+        .side-name {
+            margin-top: 1rem;
+            background: var(--accent);
+            color: #14161f;
+            text-align: center;
+            padding: 0.55rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: 0.06em;
+            box-shadow: 0 10px 22px -10px rgba(245,197,24,0.6);
+        }
+        .side-role {
+            text-align: center; color: var(--muted);
+            font-size: 0.82rem; margin-top: 0.5rem; letter-spacing: 0.05em;
+        }
+        .side-nav { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.2rem; }
+        .side-nav a {
+            display: flex; align-items: center; gap: 0.8rem;
+            color: var(--muted); text-decoration: none;
+            padding: 0.65rem 0.8rem; border-radius: 12px;
+            font-size: 0.92rem; font-weight: 500;
+            transition: all 0.2s; position: relative;
+        }
+        .side-nav a i { width: 20px; text-align: center; font-size: 0.95rem; }
+        .side-nav a:hover, .side-nav a.active {
+            color: var(--text); background: rgba(245,197,24,0.08);
+        }
+        .side-nav a.active::before {
+            content: ""; position: absolute; left: 0; top: 20%; bottom: 20%;
+            width: 3px; border-radius: 3px; background: var(--accent);
+        }
+        .side-foot {
+            margin-top: auto; padding-top: 1.5rem;
+            font-size: 0.72rem; color: #64769c; text-align: center;
+            border-top: 1px solid var(--line);
+        }
+        .side-social { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 0.8rem; }
+        .side-social a { color: var(--muted); font-size: 1rem; transition: color 0.2s; }
+        .side-social a:hover { color: var(--accent); }
+
+        /* ===== Hero 主视觉 ===== */
+        .topbar {
+            display: flex; align-items: center; justify-content: flex-end;
+            gap: 1.4rem; padding: 1.6rem 0 0.5rem;
+            font-size: 0.86rem; color: var(--muted); flex-wrap: wrap;
+        }
+        .topbar i { color: var(--accent); margin-right: 6px; }
+        .topbar .mail-btn {
+            background: var(--accent); color: #14161f;
+            width: 40px; height: 40px; border-radius: 12px;
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 10px 22px -10px rgba(245,197,24,0.6);
+        }
+        .hero {
+            display: grid; grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem; align-items: center;
+            min-height: 78vh; padding: 1rem 0 2rem;
+        }
+        .hero-eyebrow {
+            color: var(--accent2); font-weight: 600; letter-spacing: 0.14em;
+            font-size: 0.82rem; text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .hero h1 {
+            font-size: 4.2rem; font-weight: 800; line-height: 1.05;
+            letter-spacing: -0.02em; margin-bottom: 0.4rem;
+        }
+        .hero h1 .dot { color: var(--accent); }
+        .hero .typed {
+            font-size: 1.5rem; font-weight: 600; color: var(--text);
+            min-height: 2.1rem; margin-bottom: 1.2rem;
+        }
+        .hero .typed .cursor { color: var(--accent); font-weight: 400; }
+        .hero p.lead { color: var(--muted); font-size: 1rem; max-width: 34rem; margin-bottom: 1.8rem; }
+        .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary {
+            background: var(--accent); color: #14161f; font-weight: 700;
+            padding: 0.85rem 1.8rem; border-radius: 40px; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            box-shadow: 0 14px 30px -12px rgba(245,197,24,0.7);
+            transition: transform 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-3px); }
+        .btn-ghost {
+            border: 1px solid var(--line); color: var(--text); font-weight: 600;
+            padding: 0.85rem 1.8rem; border-radius: 40px; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 0.6rem; transition: all 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+        /* Hero 人像占位(渐变) */
+        .hero-portrait {
+            position: relative; aspect-ratio: 3 / 4; border-radius: 28px;
+            background:
+                radial-gradient(120% 90% at 70% 20%, rgba(245,197,24,0.22), transparent 55%),
+                linear-gradient(160deg, #16213c, #0d1424);
+            border: 1px solid var(--line);
+            overflow: hidden;
+            display: flex; align-items: flex-end; justify-content: center;
+            box-shadow: 0 30px 60px -24px #000;
+        }
+        .hero-portrait::before {
+            content: ""; position: absolute; inset: 0;
+            background:
+                repeating-linear-gradient(90deg, transparent 0 22px, rgba(120,160,255,0.05) 22px 23px),
+                repeating-linear-gradient(0deg, transparent 0 22px, rgba(120,160,255,0.05) 22px 23px);
+            mask-image: radial-gradient(80% 80% at 50% 40%, #000, transparent 75%);
+        }
+        .hero-portrait .silhouette {
+            font-size: 12rem; color: rgba(245,197,24,0.14); margin-bottom: -1.2rem;
+        }
+        .hero-portrait .ph-note {
+            position: absolute; top: 14px; left: 14px;
+            font-size: 0.7rem; color: rgba(180,210,255,0.6);
+            background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 20px;
+        }
+
+        /* Hero 真实照片覆盖占位 */
+        .hero-portrait img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: 3;
+        }
+        .hero-portrait:not(.no-img) .silhouette,
+        .hero-portrait:not(.no-img) > .ph-note { display: none; }
+
+        /* ===== 深度介绍图片墙 ===== */
+        .feature-gallery { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.4rem 0 0.6rem; }
+        .feature-gallery figure {
+            flex: 1 1 240px; margin: 0; border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--line); background: rgba(12,20,38,0.6);
+            transition: transform 0.25s, border-color 0.25s;
+        }
+        .feature-gallery figure:hover { transform: translateY(-4px) scale(1.01); border-color: var(--accent); }
+        .feature-gallery img { display: block; width: 100%; height: 240px; object-fit: cover; object-position: top center; }
+        /* 单图时不铺满、居中且限高，避免大块留白 */
+        .feature-gallery.single { justify-content: center; }
+        .feature-gallery.single figure { flex: 0 1 420px; max-width: 420px; }
+        .feature-gallery.single img { height: 300px; object-fit: contain; background: #0c1426; }
+        .feature-gallery figcaption {
+            padding: 0.55rem 0.9rem; font-size: 0.8rem; color: var(--muted);
+            border-top: 1px solid var(--line);
+        }
+
+        /* ===== 通用玻璃卡 ===== */
         .glass-card {
-            background: rgba(18, 25, 40, 0.7);
+            background: var(--panel);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(120, 150, 255, 0.2);
-            border-radius: 32px;
+            border: 1px solid var(--line);
+            border-radius: 24px;
             box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
-            transition: transform 0.2s ease, border-color 0.2s;
+            transition: transform 0.2s ease, border-color 0.2s, box-shadow 0.3s;
+            position: relative; overflow: hidden;
         }
         .glass-card:hover {
-            border-color: rgba(180, 210, 255, 0.5);
+            border-color: rgba(245,197,24,0.4);
             transform: translateY(-4px);
+            box-shadow: 0 28px 60px -18px rgba(245,197,24,0.25);
         }
+        .glass-card::before {
+            content: ""; position: absolute; inset: 0; border-radius: inherit;
+            background: linear-gradient(115deg, transparent 30%, rgba(245,197,24,0.1) 48%, transparent 62%);
+            transform: translateX(-120%); transition: transform 0.7s ease; pointer-events: none; z-index: 1;
+        }
+        .glass-card:hover::before { transform: translateX(120%); }
+        .glass-card > * { position: relative; z-index: 2; }
 
-        .hero {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-        .hero-pic {
-            flex: 0 0 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4a9eff, #b388ff, #6dffb8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            box-shadow: 0 15px 30px -8px #00000080;
-            border: 3px solid rgba(255,255,240,0.3);
-        }
-        .hero-text {
-            flex: 1;
-        }
-        .hero-text h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #ffffff, #c2e0ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.25rem;
-        }
-        .badge {
-            display: inline-block;
-            background: #1f2b48;
-            padding: 0.3rem 1rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid #3561b3;
-            margin-right: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        .contact-info i {
-            width: 24px;
-            color: #9bbaff;
-        }
-        .contact-info a {
-            color: #f0f3fa;
-            text-decoration: none;
-            border-bottom: 1px dotted #5577bb;
-        }
-
-        .stats-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin: 2rem 0 2.5rem;
-        }
+        /* ===== 数据条 ===== */
+        .stats-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1rem 0 2rem; }
         .stat-item {
-            background: rgba(0, 30, 60, 0.5);
-            border-radius: 40px;
-            padding: 0.6rem 1.5rem;
-            font-weight: 600;
-            border: 1px solid #2e4a88;
-            backdrop-filter: blur(4px);
-            font-size: 1.1rem;
+            background: rgba(0, 30, 60, 0.4); border-radius: 40px;
+            padding: 0.55rem 1.3rem; font-weight: 600; font-size: 1rem;
+            border: 1px solid var(--line);
         }
-        .stat-item span {
-            color: #b3d0ff;
-            font-weight: 400;
-            margin-right: 6px;
-        }
+        .stat-item span { color: var(--accent2); font-weight: 400; margin-right: 6px; }
 
-        .links-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            margin: 2.5rem 0;
-        }
-        .link-card {
-            flex: 1 1 200px;
-            background: rgba(30, 40, 65, 0.7);
-            backdrop-filter: blur(8px);
-            padding: 1.5rem 1.2rem;
-            border-radius: 28px;
-            border: 1px solid #3d506e;
-            transition: all 0.2s;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            box-shadow: 0 10px 20px -10px #00000080;
-            position: relative;
-        }
-        .link-card:hover {
-            background: #28344e;
-            border-color: #7ea5ff;
-            transform: scale(1.02);
-        }
-        .link-card i {
-            font-size: 2rem;
-            background: linear-gradient(145deg, #ffd966, #b4e6f0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        .portfolio-badge {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            background: #ffb347;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 30px;
-            color: #1e1e2a;
-            font-weight: 600;
-        }
-
+        /* ===== 区块标题 ===== */
+        .section { padding-top: 4.5rem; scroll-margin-top: 1rem; }
         .section-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin: 3rem 0 1.5rem 0;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            font-size: 2rem; font-weight: 700; margin-bottom: 2.2rem;
+            display: flex; align-items: center; gap: 12px;
         }
-        .section-title i {
-            color: #ffb86b;
+        .section-title i { color: var(--accent); }
+        .section-title .title-underline {
+            display: block; width: 0; height: 3px; border-radius: 3px; margin-top: 0.5rem;
+            background: linear-gradient(to right, var(--accent), var(--accent2));
+            transition: width 0.8s cubic-bezier(0.22,1,0.36,1) 0.2s;
         }
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.8rem;
+        .section-title.in-view .title-underline { width: 100px; }
+
+        /* ===== 作品集卡片行 ===== */
+        .links-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 1rem; }
+        .link-card {
+            background: rgba(30, 40, 65, 0.6); backdrop-filter: blur(8px);
+            padding: 1.4rem 1.2rem; border-radius: 20px; border: 1px solid var(--line);
+            transition: all 0.2s; text-decoration: none; color: inherit; display: block;
+            box-shadow: 0 10px 20px -10px #000; position: relative; overflow: hidden;
         }
-        .card-grid.two-col {
-            grid-template-columns: repeat(2, 1fr);
-            max-width: 860px;
-            margin-left: auto;
-            margin-right: auto;
+        .link-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .link-card i { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.5rem; display: block; }
+        .link-card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .link-card p { color: var(--muted); font-size: 0.85rem; }
+        .link-hint {
+            margin-top: 0.7rem; display: inline-flex; align-items: center; gap: 0.3rem;
+            font-size: 0.74rem; color: var(--accent2); font-weight: 600;
+            opacity: 0.75; transition: opacity 0.2s, gap 0.2s;
         }
-        @media (max-width: 720px) {
-            .card-grid.two-col {
-                grid-template-columns: 1fr;
-            }
+        .link-card:hover .link-hint { opacity: 1; gap: 0.5rem; }
+        .link-card::after {
+            content: ""; position: absolute; inset: 0; border-radius: inherit;
+            background: radial-gradient(180px circle at var(--mx,50%) var(--my,50%), rgba(245,197,24,0.15), transparent 60%);
+            opacity: 0; transition: opacity 0.3s; pointer-events: none;
         }
-        .exp-card {
-            padding: 1.8rem 1.5rem;
-            height: fit-content;
+        .link-card:hover::after { opacity: 1; }
+        .portfolio-badge {
+            position: absolute; top: 12px; right: 14px; background: var(--accent);
+            font-size: 0.66rem; padding: 0.2rem 0.6rem; border-radius: 30px;
+            color: #14161f; font-weight: 700;
         }
-        .exp-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.4rem;
-        }
-        .company {
-            color: #adc8ff;
-            font-weight: 500;
-            margin-bottom: 0.3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .date {
-            font-size: 0.9rem;
-            color: #96abda;
-            margin-bottom: 1.2rem;
-            border-left: 3px solid #5f7ec0;
-            padding-left: 0.7rem;
-        }
+        .portfolio-badge.coming-soon { background: #3a3320; color: #ffd966; border: 1px solid #c9a03d; }
+
+        /* ===== 内容卡 ===== */
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card-grid.two-col { grid-template-columns: repeat(2, 1fr); }
+        .exp-card { padding: 1.8rem 1.5rem; height: fit-content; }
+        .exp-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .company { color: var(--accent2); font-weight: 500; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+        .date { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.1rem; border-left: 3px solid var(--accent); padding-left: 0.7rem; }
+        .exp-card p { margin-bottom: 0.6rem; font-size: 0.94rem; }
         .result-badge {
-            display: inline-block;
-            background: #19353b;
-            color: #9effe0;
-            border-radius: 30px;
-            padding: 0.2rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 0.8rem;
+            display: inline-block; background: #19353b; color: #9effe0; border-radius: 30px;
+            padding: 0.2rem 1rem; font-size: 0.85rem; font-weight: 500; margin: 0.6rem 0.4rem 0 0;
             border: 1px solid #4caa9b;
         }
-        .coming-soon {
-            background: #2a2a3a;
-            color: #ffd966;
-            border-color: #c9a03d;
-        }
+        .result-badge.coming-soon { background: #2a2a3a; color: #ffd966; border-color: #c9a03d; }
         .skill-tag {
-            display: inline-block;
-            background: #19233c;
-            padding: 0.3rem 1rem;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            margin: 0.2rem 0.3rem;
-            border: 1px solid #2f4172;
+            display: inline-block; background: #19233c; padding: 0.3rem 1rem; border-radius: 30px;
+            font-size: 0.82rem; margin: 0.2rem 0.3rem 0.2rem 0; border: 1px solid var(--line);
         }
 
-        footer {
-            margin-top: 4rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #7d90bb;
+        /* ===== 深度介绍 ===== */
+        .feature-card { padding: 2.2rem 2rem; grid-column: 1 / -1; }
+        .feature-head { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+        .feature-icon { flex: 0 0 56px; height: 56px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: 0 10px 24px -8px rgba(0,0,0,0.6); }
+        .feature-head h3 { font-size: 1.6rem; font-weight: 700; }
+        .feature-sub { color: var(--muted); font-size: 0.92rem; margin-top: 2px; }
+        .feature-links { margin-left: auto; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+        .feature-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(245,197,24,0.12); border: 1px solid rgba(245,197,24,0.4); color: var(--accent);
+            padding: 0.45rem 1rem; border-radius: 30px; font-size: 0.85rem; text-decoration: none; transition: all 0.2s;
         }
+        .feature-btn:hover { background: var(--accent); color: #14161f; }
+        .arch-flow { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1.4rem 0; }
+        .arch-layer { flex: 1 1 200px; background: rgba(12, 20, 38, 0.6); border: 1px solid var(--line); border-radius: 18px; padding: 1rem 1.1rem; transition: border-color 0.25s, transform 0.25s; }
+        .arch-layer:hover { border-color: var(--accent); transform: translateY(-4px); }
+        .arch-layer .tag { display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+        .arch-layer h4 { font-size: 1.02rem; margin-bottom: 0.35rem; }
+        .arch-layer p { font-size: 0.86rem; color: var(--muted); }
+        .flow-chain { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.4rem; }
+        .flow-step { background: rgba(30, 45, 78, 0.7); border: 1px solid var(--line); border-radius: 30px; padding: 0.35rem 1rem; font-size: 0.84rem; font-weight: 500; position: relative; }
+        .flow-step:not(:last-child)::after { content: "→"; margin-left: 0.55rem; color: var(--accent); }
 
-        @media (max-width: 640px) {
-            .hero {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1.5rem;
-            }
-            .hero-pic {
-                flex-basis: 110px;
-                width: 110px;
-                height: 110px;
-                font-size: 3rem;
-            }
-            .hero-text h1 {
-                font-size: 2.4rem;
-            }
-            .section-title {
-                font-size: 1.8rem;
-            }
+        /* ===== 实习经历时间线 ===== */
+        .timeline { position: relative; margin: 0.5rem 0; padding-left: 2.2rem; }
+        .timeline::before {
+            content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent2));
+        }
+        .tl-item { position: relative; padding: 0 0 2.4rem 0.4rem; }
+        .tl-item:last-child { padding-bottom: 0.3rem; }
+        .tl-item::before {
+            content: ""; position: absolute; left: -1.82rem; top: 4px; width: 14px; height: 14px;
+            border-radius: 50%; background: var(--bg); border: 3px solid var(--accent);
+            box-shadow: 0 0 0 4px rgba(245,197,24,0.12);
+        }
+        .tl-head { display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap; }
+        .tl-head h3 { font-size: 1.16rem; font-weight: 700; }
+        .tl-date {
+            font-size: 0.76rem; color: #14161f; background: var(--accent); font-weight: 700;
+            padding: 0.14rem 0.7rem; border-radius: 30px; white-space: nowrap;
+        }
+        .tl-company { color: var(--accent2); font-size: 0.85rem; font-weight: 500; margin: 0.28rem 0 0.45rem; }
+        .tl-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 0.4rem; }
+        .tl-desc strong { color: var(--text); }
+        .tl-badges { margin-top: 0.2rem; }
+
+        footer { margin-top: 4rem; padding-top: 2rem; text-align: center; font-size: 0.88rem; color: #64769c; border-top: 1px solid var(--line); }
+        /* ===== 渐入动画 ===== */
+        .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); will-change: opacity, transform; }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+        /* ===== 移动端汉堡 ===== */
+        .menu-toggle {
+            display: none; position: fixed; top: 16px; left: 16px; z-index: 60;
+            width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line);
+            background: var(--sidebar); color: var(--text); font-size: 1.2rem; cursor: pointer;
+        }
+        .sidebar-mask { display: none; }
+
+        @media (max-width: 900px) {
+            .menu-toggle { display: block; }
+            .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+            .sidebar.open { transform: translateX(0); }
+            .sidebar-mask.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 30; }
+            .main { margin-left: 0; padding: 0 1.4rem 3rem; }
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-portrait { max-width: 320px; margin: 1rem auto 0; }
+            .hero h1 { font-size: 3rem; }
+            .card-grid.two-col { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.4rem; }
+            .section-title { font-size: 1.6rem; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
         }
     </style>
 </head>
 <body>
-
     <canvas id="magic-canvas"></canvas>
 
-    <div class="content">
-        <div class="hero">
-            <div class="hero-pic glass-card" style="border-radius: 50%;">
-                <i class="fas fa-robot" style="color: #c0eec0; text-shadow: 0 0 10px #aaffdd;"></i>
-                <i class="fas fa-leaf" style="color: #aaffbb; margin-left: -10px; margin-top: 20px;"></i>
-                <i class="fas fa-hand-peace" style="color: #ffd966; margin-left: -15px;"></i>
+    <button class="menu-toggle" id="menuToggle" aria-label="菜单"><i class="fas fa-bars"></i></button>
+    <div class="sidebar-mask" id="sidebarMask"></div>
+
+    <div class="layout">
+        <!-- ===== 左侧固定侧边栏 ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="side-avatar has-img">
+                <img src="portfolio.jpg" alt="李苏 头像" onerror="this.remove();this.parentNode.classList.remove('has-img');">
+                <i class="fas fa-user-astronaut ph-icon"></i>
+                <span class="ph-note">头像待放 · portfolio.jpg</span>
             </div>
-            <div class="hero-text">
-                <h1>李苏 · 产品玩家</h1>
-                <div style="margin: 0.75rem 0;">
-                    <span class="badge"><i class="fab fa-jd"></i> 京东 JoyInside · AI PM（实习）</span>
-                    <span class="badge"><i class="far fa-paper-plane"></i> 27届毕业生</span>
-                    <span class="badge"><i class="fas fa-gem"></i> 南大硕士 · GPA 4.7</span>
+            <div class="side-name">李 苏</div>
+            <div class="side-role">AI 产品经理 · 产品玩家</div>
+
+            <nav class="side-nav">
+                <a href="#home" class="active"><i class="fas fa-house"></i> 首页</a>
+                <a href="#works"><i class="fas fa-layer-group"></i> 作品集</a>
+                <a href="#exp"><i class="fas fa-hammer"></i> 实习经历</a>
+                <a href="#soon"><i class="fas fa-hourglass-half"></i> 敬请期待</a>
+            </nav>
+
+            <div class="side-foot">
+                <div class="side-social">
+                    <a href="https://github.com/nanaissusubaby" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="mailto:2577347905@qq.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="tel:15268620041" title="Phone"><i class="fas fa-phone"></i></a>
                 </div>
-                <div class="contact-info">
-                    <p><i class="fas fa-phone-alt"></i> 152-6862-0041 &nbsp;&nbsp; <i class="fas fa-envelope"></i> 2577347905@qq.com</p>
-                    <p style="margin-top: 5px;"><i class="fas fa-rocket"></i> AI产品向未来</p>
+                © 2026 李苏 · AI 产品向未来
+            </div>
+        </aside>
+
+        <!-- ===== 右侧主区 ===== -->
+        <main class="main">
+            <!-- 顶部联系条 -->
+            <div class="topbar">
+                <span><i class="fas fa-phone-alt"></i> 152-6862-0041</span>
+                <span><i class="fas fa-envelope"></i> 2577347905@qq.com</span>
+                <a class="mail-btn" href="mailto:2577347905@qq.com" title="发邮件"><i class="fas fa-paper-plane"></i></a>
+            </div>
+
+            <!-- Hero 主视觉 -->
+            <section class="section hero" id="home">
+                <div class="hero-copy">
+                    <div class="hero-eyebrow">Hello, I'm</div>
+                    <h1>李苏<span class="dot">.</span></h1>
+                    <div class="typed"><span id="typed-text"></span><span class="cursor">|</span></div>
+                    <p class="lead">京东 JoyInside AI PM · 南大硕士（GPA 4.7）· 27 届毕业生。专注大模型语音交互、Agent 架构与开放平台建设，用数据驱动的产品设计把 AI 能力落到真实场景。</p>
+                    <div class="cta-row">
+                        <a class="btn-primary" href="#works"><i class="fas fa-layer-group"></i> 查看作品</a>
+                        <a class="btn-ghost" href="mailto:2577347905@qq.com"><i class="fas fa-envelope"></i> 联系我</a>
+                    </div>
+                    <div class="stats-grid" style="margin-top: 2rem;">
+                        <div class="stat-item"><span>工具召回</span> 48% → 84.67%</div>
+                        <div class="stat-item"><span>日均对话</span> 33.5 轮/人</div>
+                        <div class="stat-item"><span>自助接入</span> 0% → 60%</div>
+                        <div class="stat-item"><span>付费转化</span> 5% → 9.2%</div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="hero-portrait">
+                    <img src="hero.png" alt="李苏 个人形象照" onerror="this.style.display='none';this.parentNode.classList.add('no-img');">
+                    <span class="ph-note"><i class="fas fa-image"></i> 主视觉照片 · hero.png</span>
+                    <i class="fas fa-user-astronaut silhouette"></i>
+                </div>
+            </section>
 
-        <div class="stats-grid">
-            <div class="stat-item"><span>🍎 京东实习</span> JoyInside AI PM</div>
-            <div class="stat-item"><span>🎯 工具召回</span> 48% → 84.67%</div>
-            <div class="stat-item"><span>🗣️ 日均对话</span> 33.5轮 / 人</div>
-            <div class="stat-item"><span>🚀 品牌自助接入</span> 0% → 60%</div>
-            <div class="stat-item"><span>💰 付费转化</span> 5% → 9.2%</div>
-            <div class="stat-item"><span>⏱️ 效率提升</span> 最高95%</div>
-        </div>
 
-        <div class="links-row">
-            <a href="https://www.coze.cn/s/tmDWw0HxFpA/" target="_blank" class="link-card">
-                <div class="portfolio-badge">作品集</div>
-                <i class="fas fa-brain"></i>
-                <h3>AI职业构建助手</h3>
-                <p style="color: #baceff;">智能Agent · 职业导航 · 效率+40%</p>
-            </a>
-            <a href="#" class="link-card" onclick="alert('校内访问限制，可查看演示视频。')">
-                <div class="portfolio-badge">作品集</div>
-                <i class="fas fa-university"></i>
-                <h3>南大学者科研画像</h3>
-                <p style="color: #baceff;">科技大数据挖掘 · 内部演示版</p>
-            </a>
-            <a href="https://www.coze.cn/s/7Xs85JTmX1k/" target="_blank" class="link-card">
-                <div class="portfolio-badge">作品集</div>
-                <i class="fas fa-comment-dots"></i>
-                <h3>AI模拟面试</h3>
-                <p style="color: #baceff;">Prompt工程 · 认知引导 · 决策闭环</p>
-            </a>
-        </div>
+            <!-- ===== 作品集(原关于我链接卡 + 精选项目深度介绍) ===== -->
+            <section class="section" id="works">
+                <div class="section-title"><i class="fas fa-layer-group"></i> 作品集</div>
+                <div class="links-row">
+                    <a href="https://www.coze.cn/s/tmDWw0HxFpA/" target="_blank" class="link-card">
+                        <div class="portfolio-badge">作品集</div>
+                        <i class="fas fa-brain"></i>
+                        <h3>AI职业构建助手</h3>
+                        <p>智能Agent · 职业导航 · 效率+40%</p>
+                       <span class="link-hint"><i class="fas fa-arrow-up-right-from-square"></i> 点击查看作品</span>
+                    </a>
+                    <a href="#" class="link-card" onclick="alert('校内访问限制，可查看演示视频。'); return false;">
+                        <div class="portfolio-badge">作品集</div>
+                        <i class="fas fa-university"></i>
+                        <h3>南大学者科研画像</h3>
+                        <p>科技大数据挖掘 · 内部演示版</p>
+                       <span class="link-hint"><i class="fas fa-circle-play"></i> 点击查看演示</span>
+           </a>
+                    <a href="https://www.coze.cn/s/7Xs85JTmX1k/" target="_blank" class="link-card">
+                        <div class="portfolio-badge">作品集</div>
+                        <i class="fas fa-comment-dots"></i>
+                        <h3>AI模拟面试</h3>
+                        <p>Prompt工程 · 认知引导 · 决策闭环</p>
+                       <span class="link-hint"><i class="fas fa-arrow-up-right-from-square"></i> 点击查看作品</span>
+                    </a>
+                    <a href="https://github.com/nanaissusubaby/listen-to-me" target="_blank" class="link-card">
+                        <div class="portfolio-badge coming-soon">打磨中</div>
+                        <i class="fas fa-heart"></i>
+                        <h3>听我说 · 沟通辅助器</h3>
+                        <p>情侣沟通 · AI调停 · 打磨中</p>
+                       <span class="link-hint"><i class="fab fa-github"></i> 点击查看 GitHub</span>
+                    </a>
+                    <a href="https://github.com/nanaissusubaby/PinPaw" target="_blank" class="link-card">
+                        <div class="portfolio-badge">黑马大赛</div>
+                        <i class="fas fa-paw"></i>
+                        <h3>PinPaw · 宠物AI管家</h3>
+                        <p>多Agent · 智能项圈 · 健康陪伴</p>
+                       <span class="link-hint"><i class="fab fa-github"></i> 点击查看 GitHub</span>
+                    </a>
+                </div>
+            </section>
 
-        <div class="section-title">
-            <i class="fas fa-briefcase"></i> 京东 · JoyInside
-        </div>
-        <div class="card-grid">
-            <div class="exp-card glass-card" style="grid-column: 1 / -1; background: rgba(30, 20, 25, 0.72); border-color: rgba(255, 130, 130, 0.35);">
-                <h3>🍎 AI营养秤 · 大模型语音交互落地</h3>
-                <div class="company"><i class="fas fa-utensils" style="color:#ff9e9e;"></i> 京东 JoyInside · AI PM（实习） <span style="color:#ff9e9e;">（主导 · 首款AI营养秤）</span></div>
-                <div class="date">2026.04 – 至今</div>
-                <p>📌 联手厂商香山从0定义AI营养秤，解决称重硬件与AI饮食服务体验割裂的痛点，创新“秤体自动回传重量 + 大模型多轮应答”交互范式，落地语音饮食记录、营养查询、热量复盘、个性化膳食推荐等核心场景。</p>
-                <p>🛠️ 搭建 <strong>Intent + Scenario Engine + Tools</strong> 三层 Skill 架构，设计意图路由与业务意图域；构建以 <strong>Plan.EM & Act.EM、工具召回率、幻觉率</strong> 为核心的评测体系，横向对比完成轻量化模型选型；针对模型绕过工具的 BadCase，强化 PE 约束、优化 Tool 描述提升调用准召。</p>
-                <p><strong>🏆结果</strong>工具精准召回率 48% → 84.67%（+10pp），端到端时延↓300+ms；7月28日上线后人均每日对话 <strong>33.5轮</strong>（其他家居品类仅13.98轮），沉淀外部工具调用时延标准与测试准出模板成为内部参考。</p>
-                <span class="result-badge"><i class="fas fa-microphone"></i> 召回84.67%</span>
-                <span class="result-badge"><i class="fas fa-bolt"></i> 时延↓300ms+</span>
-                <span class="result-badge"><i class="fas fa-comments"></i> 33.5轮/日</span>
-            </div>
-            <div class="exp-card glass-card" style="grid-column: 1 / -1; background: rgba(20, 26, 40, 0.72); border-color: rgba(130, 170, 255, 0.35);">
-                <h3>🧩 JoyInside 开放平台 2.0 · 架构升级</h3>
-                <div class="company"><i class="fas fa-sitemap" style="color:#9ec2ff;"></i> 京东 JoyInside · AI PM（实习） <span style="color:#9ec2ff;">（核心设计 · 平台建设）</span></div>
-                <div class="date">2026.04 – 至今</div>
-                <p>📌 为降低接入门槛、撬动规模化设备生态，主导平台 2.0 架构升级：将平台从单层应用升级为 <strong>“产品-智能体”两层架构</strong>——产品层聚焦硬件、挂载 AIoT/ASR 等设备能力，智能体层聚焦大脑软件、配置人设/音色/技能等交互属性，划清配置边界、显著降低理解与配置成本。</p>
-                <p>🛠️ 在解耦基础上实现同一产品下 <strong>多智能体</strong> 灵活配置与切换；打通端云 <strong>MCP</strong> 通道并开放提示词能力，支持品牌自建技能 Sub-agent，满足定制化功能需求、扩展平台能力边界。</p>
-                <p><strong>🏆结果</strong>品牌自助接入 0% → 60%，累计支撑 100+ 项目自助落地；方案上线两周撬动原小智系厂商切换 JoyInside 链路，已激活 3千台、1.5万台生产中、7万台开发中。</p>
-                <span class="result-badge"><i class="fas fa-rocket"></i> 自助接入60%</span>
-                <span class="result-badge"><i class="fas fa-cubes"></i> 100+项目</span>
-                <span class="result-badge"><i class="fas fa-plug"></i> 端云MCP打通</span>
-            </div>
-        </div>
+            <!-- ===== 作品集 · 深度介绍（PinPaw / 听我说） ===== -->
+            <section class="section" id="works-detail">
+                <div class="section-title"><i class="fas fa-star"></i> 作品集 · 深度介绍</div>
+                <div class="card-grid">
+                    <div class="exp-card glass-card feature-card" style="border-color: rgba(130, 170, 255, 0.4);">
+                        <div class="feature-head">
+                            <div class="feature-icon" style="background: linear-gradient(135deg, #4a9eff, #8b6dff);"><i class="fas fa-paw"></i></div>
+                            <div>
+                                <h3>PinPaw · 宠物 AI 管家</h3>
+                                <div class="feature-sub">26 黑马大赛参赛作品 · 多 Agent 编排的宠物健康守护与陪伴系统</div>
+                            </div>
+                            <div class="feature-links">
+                                <a class="feature-btn" href="https://github.com/nanaissusubaby/PinPaw" target="_blank"><i class="fab fa-github"></i> 源码仓库</a>
+                            </div>
+                        </div>
+                        <p>📌 智能项圈实时采集宠物的声音、行为与生理信号，智能球兼作家庭网关；由一个 <strong>PinPaw 主 Agent</strong> 编排「健康守护 / 情绪理解 / 陪伴执行」三类子 Agent，让宠物以第一人称主动"开口"，把提醒变成主人可确认的可执行动作。</p>
+                        <div class="feature-gallery">
+                            <figure><img src="pinpaw-app.png" alt="PinPaw App 健康界面" onerror="this.closest('figure').style.display='none';"><figcaption>App · 宠物健康分与主动预警</figcaption></figure>
+                            <figure><img src="pinpaw-arch.png" alt="PinPaw 三层架构图" onerror="this.closest('figure').style.display='none';"><figcaption>三层架构 · 感知→理解→触达→执行</figcaption></figure>
+                        </div>
+                        <div class="arch-flow">
+                            <div class="arch-layer">
+                                <span class="tag">L1 · 硬件感知</span>
+                                <h4>智能项圈 + 智能球</h4>
+                                <p>动作识别、叫声心情、环境温湿度采集；BLE GATT + Wi-Fi/MQTT 端云通信，设备控制 ACK 回传。</p>
+                            </div>
+                            <div class="arch-layer">
+                                <span class="tag">L2 · Agent 中枢</span>
+                                <h4>多 Agent 协作大脑</h4>
+                                <p>主 Agent 经 Planner / Router / Context 路由任务，健康、情绪、陪伴子 Agent 返回结构化结果与候选动作。</p>
+                            </div>
+                            <div class="arch-layer">
+                                <span class="tag">L3 · App 触点</span>
+                                <h4>统一日报与行动</h4>
+                                <p>主 Agent 汇总日报、健康报告与提醒；问诊、预约、购药、保险经 MCP 落地，主人确认闭环。</p>
+                            </div>
+                        </div>
+                        <div class="flow-chain">
+                            <span class="flow-step">感知 Sense</span>
+                            <span class="flow-step">理解 Reason</span>
+                            <span class="flow-step">表达 Speak</span>
+                            <span class="flow-step">执行 Act</span>
+                            <span class="flow-step">学习 Learn</span>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <span class="skill-tag">多 Agent 架构</span>
+                            <span class="skill-tag">ESP32-S3 项圈</span>
+                            <span class="skill-tag">STM32 陪伴球</span>
+                            <span class="skill-tag">动作识别 RF</span>
+                            <span class="skill-tag">wav2vec2 音频模型</span>
+                            <span class="skill-tag">MQTT/BLE</span>
+                            <span class="skill-tag">MCP 服务闭环</span>
+                        </div>
+                        <span class="result-badge"><i class="fas fa-cat"></i> MVP聚焦猫尿闭早筛</span>
+                        <span class="result-badge"><i class="fas fa-network-wired"></i> 端云一体架构</span>
+                    </div>
 
-        <div class="section-title">
-            <i class="fas fa-briefcase"></i> 实习·锻造
-        </div>
-        <div class="card-grid two-col">
-            <div class="exp-card glass-card">
-                <h3>✍️ AI写作产品 · 全链路引导</h3>
-                <div class="company"><i class="fas fa-cloud-sun"></i> 云梯科技 · AI产品经理</div>
-                <div class="date">2025.11 – 2026.03</div>
-                <p>📌 依托人民日报独家素材布局AI写作赛道。通过150+用户问卷洞察中小学生"写作无思路"、家长"顾虑抄袭"痛点，基于Prompt工程搭建"思路引导-素材推荐-批改打磨"闭环，构建多维素材标签体系与多轮追问Prompt链，落地多维度AI批改规范。</p>
-                <p><strong>结果：</strong>构建独家素材+全流程引导的差异化壁垒，付费转化率由行业均值约5%提升至 <strong>9.2%</strong>，突破同质化竞争困局。</p>
-                <span class="result-badge"><i class="fas fa-chart-line"></i> 转化5%→9.2%</span>
-            </div>
-            <div class="exp-card glass-card">
-                <h3>🧓 银发AI对话 · 长期记忆体系</h3>
-                <div class="company"><i class="fas fa-heart"></i> 云梯科技 · AI产品经理</div>
-                <div class="date">2025.11 – 2026.03</div>
-                <p>📌 针对银发养生国学AI问答Bot无长期记忆、体验割裂的问题，标注100+线上BadCase定位根因，设计"事实档案-事件记录-会话上下文"三层记忆架构，落地 BM25+向量混合召回，制定分层过期、冲突覆盖等适老化与合规规则。</p>
-                <p><strong>结果：</strong>对话记忆类BadCase修复率85%，跳出率降至28%，7日留存 <strong>+12pp</strong>，投诉占比降至4%。</p>
-                <span class="result-badge"><i class="far fa-star"></i> 留存+12pp</span>
-            </div>
-            <div class="exp-card glass-card">
-                <h3>💡 AI商业计划书</h3>
-                <div class="company"><i class="fas fa-lightbulb"></i> 南京一盖神灯</div>
-                <div class="date">2025.07 – 2025.09</div>
-                <p>分析1000+交易数据，聚焦"初创融资/政府申报"(占65%)；深度访谈提炼需求，重构模板+流程优化。</p>
-                <p><strong>上线效果：</strong>生成效率↑60%，专业满意度85%，目标用户付费转化↑12%。</p>
-                <span class="result-badge"><i class="fas fa-chart-line"></i> +12%转化</span>
-            </div>
-            <div class="exp-card glass-card">
-                <h3>🧱 平台基础能力 & 文档沉淀</h3>
-                <div class="company"><i class="fas fa-toolbox"></i> 京东 JoyInside · 通用能力沉淀</div>
-                <div class="date">2026.04 – 至今</div>
-                <p>设计热词、强制改写等 <strong>ASR 配置</strong> 功能并上线，针对性提升 182 家品牌方识别准确率，成为平台标准能力。</p>
-                <p>整合原版手册与技术 API 沉淀结构化知识库，为接入 Bot 提供训练语料，每项目节约 0.5 人天答疑，累计指导 100+ 项目自助接入。</p>
-                <span class="result-badge"><i class="fas fa-book"></i> 182家提准</span>
-            </div>
-        </div>
+                    <div class="exp-card glass-card feature-card" style="border-color: rgba(255, 150, 180, 0.4);">
+                        <div class="feature-head">
+                            <div class="feature-icon" style="background: linear-gradient(135deg, #ff7eb3, #ff9e9e);"><i class="fas fa-heart"></i></div>
+                            <div>
+                                <h3>听我说 · 沟通辅助器</h3>
+                                <div class="feature-sub">帮助情侣好好沟通的微信小程序 · AI 综合评判劝和 · 破冰言和</div>
+                            </div>
+                            <div class="feature-links">
+                                <span class="feature-btn" style="background: rgba(200, 160, 60, 0.18); border-color: #c9a03d; color: #ffd966; cursor: default;"><i class="fas fa-hammer"></i> 打磨中 · 敬请期待</span>
+                            </div>
+                        </div>
+                        <p>📌 双方各自向 AI 倾诉 → AI 综合评判劝和 → 私聊转述对方动机 → 破冰拥抱言和 → 记录"旧账"。个人独立开发、零成本本地跑通，用一条完整流程把"吵架"引导为"理解"。</p>
+                        <div class="feature-gallery single">
+                            <figure><img src="tingwoshuo.png" alt="听我说 情侣沟通漫画分镜" onerror="this.closest('figure').style.display='none';"><figcaption>从吵架 → AI 劝架 → 回忆美好 → 和好言和</figcaption></figure>
+                        </div>
+                        <div class="flow-chain">
+                            <span class="flow-step">创建关系</span>
+                            <span class="flow-step">话题整理</span>
+                            <span class="flow-step">各自诉说</span>
+                            <span class="flow-step">AI 评判</span>
+                            <span class="flow-step">动机转述</span>
+                            <span class="flow-step">破冰言和</span>
+                        </div>
+                        <p style="margin-top: 0.9rem; color: var(--muted);"><i class="fas fa-lightbulb"></i> 亮点：AI 追问补充上下文 + 对方看不到原话的私密诉说，双方勾选"愿意原谅 / 想拥抱"即谈判成功。</p>
+                        <div style="margin-top: 1rem;">
+                            <span class="skill-tag">微信小程序原生</span>
+                            <span class="skill-tag">Node.js + Express</span>
+                            <span class="skill-tag">SQLite</span>
+                            <span class="skill-tag">Ollama · Qwen2.5</span>
+                            <span class="skill-tag">Prompt 工程</span>
+                        </div>
+                        <span class="result-badge"><i class="fas fa-hand-holding-heart"></i> 情感冲突调停闭环</span>
+                        <span class="result-badge"><i class="fas fa-shield-alt"></i> 零成本本地部署</span>
+                    </div>
+                </div>
+            </section>
+            <!-- ===== 实习经历（含京东 JoyInside） ===== -->
+            <section class="section" id="exp">
+                <div class="section-title"><i class="fas fa-briefcase"></i> 实习经历</div>
+                <div class="timeline">
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>🍎 AI 营养秤 · 大模型语音交互落地</h3><span class="tl-date">2026.04 – 至今</span></div>
+                        <div class="tl-company"><i class="fas fa-utensils"></i> 京东 JoyInside · AI PM（实习）· 主导首款 AI 营养秤</div>
+                        <p class="tl-desc">联手香山从 0 定义 AI 营养秤，创新"秤体自动回传重量 + 大模型多轮应答"交互范式；搭建 <strong>Intent + Scenario Engine + Tools</strong> 三层 Skill 架构与评测体系，针对 BadCase 强化 PE 约束、优化 Tool 调用准召。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="fas fa-microphone"></i> 召回 48%→84.67%</span>
+                            <span class="result-badge"><i class="fas fa-bolt"></i> 时延↓300ms+</span>
+                            <span class="result-badge"><i class="fas fa-comments"></i> 33.5 轮/日</span>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>🧩 JoyInside 开放平台 2.0 · 架构升级</h3><span class="tl-date">2026.04 – 至今</span></div>
+                        <div class="tl-company"><i class="fas fa-sitemap"></i> 京东 JoyInside · AI PM（实习）· 平台核心设计</div>
+                        <p class="tl-desc">主导平台 2.0 架构升级，将单层应用重构为 <strong>"产品-智能体"两层架构</strong>，划清配置边界、降低接入成本；打通端云 <strong>MCP</strong> 通道并开放提示词能力，支持品牌自建 Sub-agent。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="fas fa-rocket"></i> 自助接入 0→60%</span>
+                            <span class="result-badge"><i class="fas fa-cubes"></i> 100+ 项目落地</span>
+                            <span class="result-badge"><i class="fas fa-plug"></i> 端云 MCP 打通</span>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>✍️ AI 写作产品 · 全链路引导</h3><span class="tl-date">2025.11 – 2026.03</span></div>
+                        <div class="tl-company"><i class="fas fa-cloud-sun"></i> 云梯科技 · AI 产品经理</div>
+                        <p class="tl-desc">依托人民日报独家素材布局 AI 写作赛道，基于 Prompt 工程搭建"思路引导-素材推荐-批改打磨"闭环，构建多维素材标签与多轮追问 Prompt 链。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="fas fa-chart-line"></i> 付费转化 5%→9.2%</span>
+                        </div>
+                   </div>
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>🧓 银发 AI 对话 · 长期记忆体系</h3><span class="tl-date">2025.11 – 2026.03</span></div>
+                        <div class="tl-company"><i class="fas fa-heart"></i> 云梯科技 · AI 产品经理</div>
+                        <p class="tl-desc">针对银发国学问答 Bot 无长期记忆的体验割裂，设计"事实档案-事件记录-会话上下文"三层记忆架构，落地 BM25+向量混合召回与适老化过期/冲突规则。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="far fa-star"></i> 7 日留存 +12pp</span>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>💡 AI 商业计划书</h3><span class="tl-date">2025.07 – 2025.09</span></div>
+                        <div class="tl-company"><i class="fas fa-lightbulb"></i> 南京一盖神灯 · 产品实习</div>
+                        <p class="tl-desc">分析 1000+ 交易数据聚焦"初创融资/政府申报"高频场景，深度访谈提炼需求、重构模板与流程。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="fas fa-chart-line"></i> 付费转化 +12%</span>
+                        </div>
+                    </div>
+                    <div class="tl-item">
+                        <div class="tl-head"><h3>🔬 算法意义建构 · 短视频与职业认知</h3><span class="tl-date">2025.10 – 2025.12</span></div>
+                        <div class="tl-company"><i class="fas fa-users"></i> 南京大学 · 研究组组长</div>
+                        <p class="tl-desc">深度访谈+数字日志挖掘信息碎片化痛点，独立完成数据清洗/编码；设计职业认知 Agent（Coze 工作流+提示工程）。</p>
+                        <div class="tl-badges">
+                            <span class="result-badge"><i class="fas fa-robot"></i> 查询效率↑40%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-grid" style="margin-top: 2rem;">
+                    <div class="exp-card glass-card">
+                        <h3><i class="fas fa-toolbox"></i> 核心工具箱</h3>
+                        <p style="margin-top: 0.8rem;">
+                            <span class="skill-tag">SQL / Python</span>
+                            <span class="skill-tag">用户画像</span>
+                            <span class="skill-tag">PRD/原型</span>
+                            <span class="skill-tag">Figma/墨刀</span>
+                            <span class="skill-tag">Dify/Coze</span>
+                            <span class="skill-tag">AI工作流</span>
+                            <span class="skill-tag">RAG / 长期记忆</span>
+                            <span class="skill-tag">MCP接入</span>
+                            <span class="skill-tag">Agent架构设计</span>
+                            <span class="skill-tag">大模型评测体系</span>
+                            <span class="skill-tag">BadCase归因调优</span>
+                        </p>
+                        <p style="margin-top: 0.8rem; color: var(--accent2);"><i class="fas fa-magic"></i> 数据驱动 · 场景化设计 · 快速验证</p>
+                    </div>
+                </div>
+            </section>
 
-        <div class="section-title">
-            <i class="fas fa-flask"></i> 项目·探索
-        </div>
-        <div class="card-grid two-col">
-            <div class="exp-card glass-card">
-                <h3>算法意义建构 · 短视频与职业认知</h3>
-                <div class="company"><i class="fas fa-users"></i> 组长 · 南大研究</div>
-                <div class="date">2025.10 – 2025.12</div>
-                <p>深度访谈+数字日志，挖掘信息碎片化痛点；独立完成数据清洗/编码。设计职业认知Agent（coze工作流+提示工程），职业信息查询效率↑40% 。</p>
-                <span class="result-badge"><i class="fas fa-robot"></i> Agent试跑</span>
-            </div>
-            <div class="exp-card glass-card" style="background: rgba(30, 25, 45, 0.7);">
-                <h3><i class="fas fa-toolbox"></i> 核心工具箱</h3>
-                <p style="margin-top: 1rem;">
-                    <span class="skill-tag">SQL / Python</span>
-                    <span class="skill-tag">用户画像</span>
-                    <span class="skill-tag">交易数据分析</span>
-                    <span class="skill-tag">PRD/原型</span>
-                    <span class="skill-tag">Figma/墨刀</span>
-                    <span class="skill-tag">Claude Code</span>
-                    <span class="skill-tag">Dify/Coze</span>
-                    <span class="skill-tag">项目管理</span>
-                    <span class="skill-tag">敏捷开发</span>
-                    <span class="skill-tag">AI工作流</span>
-                    <span class="skill-tag">RAG / 长期记忆</span>
-                    <span class="skill-tag">MCP接入</span>
-                    <span class="skill-tag">Agent架构设计</span>
-                    <span class="skill-tag">大模型评测体系</span>
-                    <span class="skill-tag">BadCase归因调优</span>
-                </p>
-                <p style="margin-top: 1rem; color: #b1c6ff;"><i class="fas fa-magic"></i> 数据驱动 · 场景化设计 · 快速验证</p>
-            </div>
-        </div>
 
-        <div class="section-title">
-            <i class="fas fa-hourglass-half"></i> 敬请期待
-        </div>
-        <div class="card-grid two-col">
-            <div class="exp-card glass-card">
-                <h3>⚖️ 吵架判官</h3>
-                <div class="company"><i class="fas fa-users"></i> 情感冲突调解AI</div>
-                <p>情侣、朋友、家人观点争执时，由“判官”对双方行为、责任进行智能判断与划分，帮助理性沟通、缓和矛盾。</p>
-                <span class="result-badge coming-soon"><i class="fas fa-clock"></i> 敬请期待</span>
-            </div>
-            <div class="exp-card glass-card">
-                <h3>🎯 SkillOpt</h3>
-                <div class="company"><i class="fas fa-robot"></i> 智能体技能的"系统化教练"</div>
-                <p>把深度学习的训练纪律引入提示词工程：以独立"教练"模型迭代优化技能文档，经反思、聚合、门控验证形成闭环，让智能体越用越聪明，告别"凭感觉写提示词"。</p>
-                <span class="result-badge coming-soon"><i class="fas fa-clock"></i> 敬请期待</span>
-            </div>
-        </div>
+            <!-- ===== 敬请期待 ===== -->
+            <section class="section" id="soon">
+                <div class="section-title"><i class="fas fa-hourglass-half"></i> 敬请期待</div>
+                <div class="card-grid two-col">
+                    <div class="exp-card glass-card">
+                        <h3>🎯 SkillOpt</h3>
+                        <div class="company"><i class="fas fa-robot"></i> 智能体技能的"系统化教练"</div>
+                        <p>把深度学习的训练纪律引入提示词工程：以独立"教练"模型迭代优化技能文档，经反思、聚合、门控验证形成闭环，让智能体越用越聪明，告别"凭感觉写提示词"。</p>
+                        <span class="result-badge coming-soon"><i class="fas fa-clock"></i> 敬请期待</span>
+                    </div>
+                </div>
+            </section>
 
-        <div style="margin: 4rem 0 2rem; border-radius: 50px; padding: 2rem; background: linear-gradient(145deg, #142033, #1e2942); text-align: center; border: 1px solid #4d7099;">
-            <i class="fas fa-cloud-sun" style="font-size: 2.5rem; color: #ffde9e;"></i>
-            <i class="fas fa-robot" style="font-size: 2.5rem; color: #a2d9ff; margin: 0 1rem;"></i>
-            <i class="fas fa-tree" style="font-size: 2.5rem; color: #93e9be;"></i>
-            <p style="margin-top: 1rem; font-size: 1.2rem; letter-spacing: 0.5px;">🌿 设计未来 · 人与AI · 自然共生 🌍</p>
-        </div>
-
-        <footer>
-            ✦ 星辰为伴，花朵引路 ✦  用产品创造真实价值 ✦
-        </footer>
+            <footer>
+                ✦ 用产品创造真实价值 ✦ 设计未来 · 人与 AI · 自然共生 ✦
+            </footer>
+        </main>
     </div>
 
     <script>
-        (function() {
-            const canvas = document.getElementById('magic-canvas');
-            const ctx = canvas.getContext('2d');
+    // ===== 科技风粒子:漂浮网点 + 连线 + 鼠标拖尾 =====
+    (function() {
+        const canvas = document.getElementById('magic-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth, height = window.innerHeight;
+        let particles = [];
+        const COUNT = 60;
+        let mouseX = -1000, mouseY = -1000;
 
-            let width = window.innerWidth;
-            let height = window.innerHeight;
-
-            let particles = [];
-            const PARTICLE_COUNT = 35;
-            let trail = [];
-            const TRAIL_MAX = 18;
-            let mouseX = -1000, mouseY = -1000;
-
-            function initParticles() {
-                for (let i = 0; i < PARTICLE_COUNT; i++) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: Math.random() * height * 0.8,
-                        size: 6 + Math.random() * 12,
-                        speedY: 0.5 + Math.random() * 1.2,
-                        type: Math.random() > 0.5 ? 'star' : 'flower',
-                        rotation: Math.random() * Math.PI * 2,
-                        spin: (Math.random() - 0.5) * 0.02,
-                        opacity: 0.6 + Math.random() * 0.4
-                    });
-                }
+        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
+        function init() {
+            particles = [];
+            for (let i = 0; i < COUNT; i++) {
+                particles.push({
+                    x: Math.random() * width, y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+                    r: 1 + Math.random() * 1.8
+              });
             }
+        }
+        window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+        window.addEventListener('touchmove', e => { if (e.touches[0]) { mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY; } });
 
-            function resizeCanvas() {
-                width = window.innerWidth;
-                height = window.innerHeight;
-                canvas.width = width;
-                canvas.height = height;
-            }
-
-            window.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                trail.push({ x: mouseX, y: mouseY, life: 1.0 });
-                if (trail.length > TRAIL_MAX) trail.shift();
-            });
-
-            window.addEventListener('touchmove', (e) => {
-                if (e.touches.length > 0) {
-                    const touch = e.touches[0];
-                    trail.push({ x: touch.clientX, y: touch.clientY, life: 1.0 });
-                    if (trail.length > TRAIL_MAX) trail.shift();
-                }
-                // 不再阻止默认滚动，保证手机可以滑动页面
-            });
-
-            function drawStar(cx, cy, r, spikes, rot, opacity) {
-                let step = Math.PI / spikes;
-                let startAngle = rot;
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            for (let p of particles) {
+                p.x += p.vx; p.y += p.vy;
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
                 ctx.beginPath();
-                for (let i = 0; i < 2 * spikes; i++) {
-                    let radius = i % 2 === 0 ? r : r * 0.45;
-                    let angle = startAngle + i * step;
-                    let x = cx + radius * Math.sin(angle);
-                    let y = cy - radius * Math.cos(angle);
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.closePath();
-                ctx.fillStyle = `rgba(255, 230, 150, ${opacity})`;
-                ctx.shadowColor = '#fde68a';
-                ctx.shadowBlur = 12;
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(245,197,24,0.5)';
                 ctx.fill();
             }
-
-            function drawFlower(cx, cy, size, rot, opacity) {
-                ctx.save();
-                ctx.translate(cx, cy);
-                ctx.rotate(rot);
-                ctx.fillStyle = `rgba(255, 190, 210, ${opacity})`;
-                ctx.shadowColor = '#f9b5c0';
-                ctx.shadowBlur = 12;
-                for (let i = 0; i < 5; i++) {
-                    let angle = (i / 5) * Math.PI * 2;
-                    let px = Math.cos(angle) * size * 0.7;
-                    let py = Math.sin(angle) * size * 0.7;
+            // 连线
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const a = particles[i], b = particles[j];
+                    const d = Math.hypot(a.x - b.x, a.y - b.y);
+                    if (d < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = 'rgba(120,160,255,' + (0.12 * (1 - d / 120)) + ')';
+                        ctx.lineWidth = 1; ctx.stroke();
+                    }
+                }
+                // 鼠标连线
+                const dm = Math.hypot(particles[i].x - mouseX, particles[i].y - mouseY);
+                if (dm < 160) {
                     ctx.beginPath();
-                    ctx.ellipse(px, py, size * 0.4, size * 0.25, 0, 0, 2 * Math.PI);
-                    ctx.fill();
+                    ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouseX, mouseY);
+                    ctx.strokeStyle = 'rgba(55,224,200,' + (0.25 * (1 - dm / 160)) + ')';
+                    ctx.lineWidth = 1; ctx.stroke();
                 }
-                ctx.fillStyle = `rgba(255, 240, 160, ${opacity})`;
-                ctx.beginPath();
-                ctx.arc(0, 0, size * 0.25, 0, 2 * Math.PI);
-                ctx.fill();
-                ctx.restore();
             }
-
-            function drawPaperPlane(x, y, life) {
-                let size = 16 + (1 - life) * 8;
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.shadowColor = '#aaccff';
-                ctx.shadowBlur = 15 * life;
-                ctx.beginPath();
-                ctx.moveTo(0, -size/2);
-                ctx.lineTo(size * 0.6, size * 0.3);
-                ctx.lineTo(0, 0);
-                ctx.lineTo(-size * 0.6, size * 0.3);
-                ctx.closePath();
-                ctx.fillStyle = `rgba(200, 230, 255, ${life * 0.9})`;
-                ctx.fill();
-                ctx.beginPath();
-                ctx.moveTo(-size*0.2, 0);
-                ctx.lineTo(-size*0.7, size*0.2);
-                ctx.lineTo(-size*0.5, size*0.35);
-                ctx.closePath();
-                ctx.fillStyle = `rgba(140, 200, 255, ${life * 0.7})`;
-                ctx.fill();
-                ctx.restore();
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, width, height);
-                ctx.shadowBlur = 0;
-
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    let p = particles[i];
-                    p.y += p.speedY;
-                    p.rotation += p.spin;
-                    if (p.y > height + 40) {
-                        p.y = -30;
-                        p.x = Math.random() * width;
-                        p.type = Math.random() > 0.5 ? 'star' : 'flower';
-                    }
-                    if (p.type === 'star') {
-                        drawStar(p.x, p.y, p.size * 0.5, 5, p.rotation, p.opacity);
-                    } else {
-                        drawFlower(p.x, p.y, p.size * 0.5, p.rotation, p.opacity);
-                    }
-                }
-
-                ctx.shadowBlur = 10;
-                for (let i = trail.length - 1; i >= 0; i--) {
-                    let t = trail[i];
-                    t.life -= 0.015;
-                    if (t.life <= 0.02) {
-                        trail.splice(i, 1);
-                        continue;
-                    }
-                    drawPaperPlane(t.x, t.y, t.life);
-                }
-
-                requestAnimationFrame(animate);
-            }
-
-            window.addEventListener('resize', () => {
-                resizeCanvas();
-                particles.forEach(p => {
-                    if (p.x > width) p.x = width * 0.8;
-                    if (p.y > height) p.y = height * 0.3;
-                });
-            });
-
-            resizeCanvas();
-            initParticles();
-            animate();
-
-            setInterval(() => {
-                if (particles.length < PARTICLE_COUNT + 5) {
-                    particles.push({
-                        x: Math.random() * width,
-                        y: -20,
-                        size: 6 + Math.random() * 12,
-                        speedY: 0.5 + Math.random() * 1.2,
-                        type: Math.random() > 0.5 ? 'star' : 'flower',
-                        rotation: Math.random() * Math.PI * 2,
-                        spin: (Math.random() - 0.5) * 0.02,
-                        opacity: 0.5 + Math.random() * 0.4
-                    });
-                }
-            }, 2000);
-        })();
+            requestAnimationFrame(animate);
+        }
+        window.addEventListener('resize', () => { resize(); init(); });
+        resize(); init(); animate();
+    })();
     </script>
 
-    <style>
-        a, button, .link-card, .exp-card {
-            cursor: pointer;
+    <script>
+    // ===== 打字机 + 侧栏导航高亮 + 汉堡菜单 + 渐入 =====
+    (function() {
+        // 1. 打字机
+        const roles = ['AI 产品经理', '大模型语音交互 · 落地', 'Agent 架构 · 开放平台', '数据驱动的产品设计'];
+        const el = document.getElementById('typed-text');
+        let ri = 0, ci = 0, del = false;
+        function tick() {
+            const cur = roles[ri];
+            el.textContent = del ? cur.slice(0, ci--) : cur.slice(0, ci++);
+            let delay = del ? 45 : 90;
+            if (!del && ci > cur.length) { del = true; delay = 1400; }
+            else if (del && ci < 0) { del = false; ci = 0; ri = (ri + 1) % roles.length; delay = 400; }
+            setTimeout(tick, delay);
         }
-    </style>
+        if (el) tick();
+
+        // 2. 区块标题光带
+        document.querySelectorAll('.section-title').forEach(t => {
+            const u = document.createElement('span'); u.className = 'title-underline'; t.appendChild(u);
+        });
+
+        // 3. 渐入
+        const targets = document.querySelectorAll('.section-title, .link-card, .card-grid > *, .stats-grid, footer');
+        targets.forEach((el, i) => { el.classList.add('reveal'); el.style.transitionDelay = (Math.min(i % 4, 3) * 0.08) + 's'; });
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            targets.forEach(el => io.observe(el));
+        } else { targets.forEach(el => el.classList.add('in-view')); }
+
+        // 4. 卡片光晕
+        document.querySelectorAll('.link-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
+        });
+
+        // 5. 侧栏导航滚动高亮
+        const navLinks = Array.from(document.querySelectorAll('.side-nav a'));
+        const sections = navLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+        if ('IntersectionObserver' in window) {
+            const spy = new IntersectionObserver(es => {
+                es.forEach(e => {
+                    if (e.isIntersecting) {
+                        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+                    }
+                });
+            }, { rootMargin: '-40% 0px -55% 0px' });
+            sections.forEach(s => spy.observe(s));
+        }
+
+        // 6. 汉堡菜单(移动端)
+        const toggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const mask = document.getElementById('sidebarMask');
+        function closeMenu() { sidebar.classList.remove('open'); mask.classList.remove('show'); }
+        if (toggle) toggle.addEventListener('click', () => { sidebar.classList.toggle('open'); mask.classList.toggle('show'); });
+        if (mask) mask.addEventListener('click', closeMenu);
+        navLinks.forEach(a => a.addEventListener('click', closeMenu));
+    })();
+    </script>
 </body>
 </html>
